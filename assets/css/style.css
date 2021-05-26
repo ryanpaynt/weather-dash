@@ -8,4 +8,5 @@ hr{
 
 #weatherOverview{
     border: solid 4px black;
+    display: block   ;
 }
