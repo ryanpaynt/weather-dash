@@ -6,7 +6,28 @@ hr{
     color: black;
 }
 
+button{
+    display: flex;
+    flex-direction: column;
+}
+
 #weatherOverview{
     border: solid 4px black;
-    display: block   ;
+    display: block;
+}
+
+.title{
+    size: 20px;
+}
+
+ul{
+    transform: translateX(-36px);
+}
+
+li{
+    list-style-type: none;
+}
+
+#head{
+    margin: auto;
 }
