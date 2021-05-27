@@ -31,4 +31,11 @@ THEN I am again presented with current and future conditions for that city
 
 ## Screenshots
 
-<img src='wea'>
+<img src='./assets/weather.png'>
+
+## Links
+
+[GitHub Repo Link](https://github.com/ryanpaynt/weather-dash)
+
+
+[Website Link](https://ryanpaynt.github.io/weather-dash)
