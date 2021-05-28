@@ -4,7 +4,7 @@ var city = document.querySelector('#city');
 var btn = document.querySelector('#submit');
 var ulEl = document.querySelector('#list');
 var cityBtn = document.querySelector('button');
-var btnList = document.querySelector('.buttonList');
+
 
 //global vars
 var lat = 0;
@@ -67,12 +67,11 @@ var currentWeather = function (event) {
 
 //this is able to 
 var renderCity = function () {
-    var formElem = document.createElement('form');
-    var button = document.createElement('button');
+    var btnList = document.querySelector('.buttonList');
 
     for (var cities of weatherData) {
+        var button = document.createElement('button');
         button.textContent = cities;
-
         btnList.append(button);
     }
 }
@@ -111,7 +110,6 @@ var renderWeather = function (weatherData) {
 //function that sets the five day forecast
 var render5Days = function (weatherData) {
     var rowEl = document.querySelector('#fiveDayRow');
-    var icon = document.createElement('img')
     rowEl.innerHTML = " ";
     var i = 3;
     while (i < 40) {
@@ -123,13 +121,13 @@ var render5Days = function (weatherData) {
             'Humidity: ' + weatherData.list[i].main.humidity + '%',
         ]
         console.log(i);
-
+        
         for (var j = 0; j < weatherArr.length; j++) {
             if (j === 0) {
+                var icon = document.createElement('img');
                 var divEl = document.createElement('div');
                 var ulEl = document.createElement('ul');
                 icon.setAttribute('src', 'http://openweathermap.org/img/w/' + weatherArr[1] + '.png');
-                console.log(icon);
                 divEl.setAttribute('class', 'col col-2');
                 rowEl.appendChild(divEl);
                 ulEl.appendChild(icon);
@@ -150,7 +148,7 @@ var render5Days = function (weatherData) {
         i += 8;
     }
 }
-
+renderCity();
 //event listeners that queue the fetching when a form has been interacted with
 formEl.addEventListener('submit', currentWeather);
 btn.addEventListener('click', function () {
