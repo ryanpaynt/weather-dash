@@ -24,13 +24,26 @@ var currentWeather = function (event) {
     var apiWeatherURL = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=metric&appid=5e18e2ae4a8234835170e48b2a9705f3';
     fetch(apiWeatherURL).then(function (response) {
         if (response.ok) {
-            response.json().then(function (data) {
-                lon = data.coord.lon;
-                lat = data.coord.lat;
-                console.log(data);
-                renderWeather(data);
-            })
-                .then(function () {
+            response.json()
+                .then(function (data) {
+                    lon = data.coord.lon;
+                    lat = data.coord.lat;
+                    console.log(data);
+                    return data;
+                })
+                .then(function (weatherData) {
+                    var apiOneCall = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&appid=5e18e2ae4a8234835170e48b2a9705f3';
+                    fetch(apiOneCall).then(function (response) {
+                        if (response.ok) {
+                            response.json().then(function (data) {
+                                console.log(data);
+                                UVI = data.current.uvi;
+                                renderWeather(weatherData);
+                            })
+                        } else {
+                            console.log('Error: ' + response.statusText);
+                        }
+                    });
                     var apiForecastURL = 'https://api.openweathermap.org/data/2.5/forecast?q=' + cityName + '&units=metric&appid=5e18e2ae4a8234835170e48b2a9705f3';
                     fetch(apiForecastURL).then(function (response) {
                         if (response.ok) {
@@ -38,17 +51,6 @@ var currentWeather = function (event) {
                                 console.log(data);
                                 render5Days(data);
                             }).then(function () {
-                                var apiForecastURL = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&appid=5e18e2ae4a8234835170e48b2a9705f3';
-                                fetch(apiForecastURL).then(function (response) {
-                                    if (response.ok) {
-                                        response.json().then(function (data) {
-                                            console.log(data);
-                                            UVI = data.current.uvi;
-                                        })
-                                    } else {
-                                        console.log('Error: ' + response.statusText);
-                                    }
-                                });
                             })
                         } else {
                             console.log('Error: ' + response.statusText);
@@ -65,7 +67,7 @@ var currentWeather = function (event) {
 
 };
 
-//this is able to 
+//this is able to generate buttons and keep them when the page is refreshed
 var renderCity = function () {
     var btnList = document.querySelector('.buttonList');
 
@@ -121,7 +123,7 @@ var render5Days = function (weatherData) {
             'Humidity: ' + weatherData.list[i].main.humidity + '%',
         ]
         console.log(i);
-        
+
         for (var j = 0; j < weatherArr.length; j++) {
             if (j === 0) {
                 var icon = document.createElement('img');
@@ -138,11 +140,11 @@ var render5Days = function (weatherData) {
                 divEl.appendChild(ulEl);
                 j++;
             } else {
-                    var il = document.createElement('il');
-                    il.textContent = weatherArr[j];
-                    ulEl.appendChild(il);
-                    il.appendChild(document.createElement('br'))
-                    il.appendChild(document.createElement('br'))
+                var il = document.createElement('il');
+                il.textContent = weatherArr[j];
+                ulEl.appendChild(il);
+                il.appendChild(document.createElement('br'))
+                il.appendChild(document.createElement('br'))
             }
         }
         i += 8;
